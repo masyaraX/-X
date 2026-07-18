@@ -1,0 +1,142 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color: #18212f;
+  background: #f5f7fb;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  touch-action: manipulation;
+}
+
+.tap-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+.app-bg {
+  background:
+    radial-gradient(circle at 14% 10%, rgb(52 211 153 / 0.22), transparent 30%),
+    radial-gradient(circle at 80% 12%, rgb(251 191 36 / 0.20), transparent 26%),
+    linear-gradient(180deg, #f7fafc 0%, #eef3f9 100%);
+}
+
+.fever-bg {
+  background:
+    radial-gradient(circle at 18% 18%, rgb(251 191 36 / 0.32), transparent 28%),
+    radial-gradient(circle at 82% 22%, rgb(16 185 129 / 0.28), transparent 28%),
+    linear-gradient(135deg, #fff7ed 0%, #ecfeff 50%, #f0fdf4 100%);
+}
+
+.game-stage::before {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  content: "";
+  background-image:
+    linear-gradient(rgb(15 23 42 / 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(15 23 42 / 0.045) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.danger-stage {
+  background:
+    repeating-linear-gradient(-45deg, rgb(254 226 226 / 0.8) 0 12px, rgb(255 247 237 / 0.8) 12px 24px),
+    #fff7ed;
+}
+
+.target-real {
+  animation: pulse-pop 0.8s ease-in-out infinite;
+}
+
+.target-fake {
+  animation: fake-drift 1.8s ease-in-out infinite alternate;
+}
+
+.reflex-button {
+  animation: breathe 0.9s ease-in-out infinite;
+}
+
+.memory-flash {
+  animation: flash-in 0.24s ease-out both;
+}
+
+.result-pop {
+  animation: result-pop 0.32s cubic-bezier(0.2, 1.35, 0.35, 1) both;
+}
+
+button:active {
+  transform: scale(0.96);
+}
+
+@keyframes pulse-pop {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgb(52 211 153 / 0.45), 0 18px 50px rgb(15 23 42 / 0.14);
+  }
+  50% {
+    box-shadow: 0 0 0 18px rgb(52 211 153 / 0), 0 18px 50px rgb(15 23 42 / 0.16);
+  }
+}
+
+@keyframes fake-drift {
+  from {
+    transform: translate3d(-4px, 3px, 0);
+  }
+  to {
+    transform: translate3d(5px, -4px, 0);
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.035);
+  }
+}
+
+@keyframes flash-in {
+  from {
+    transform: scale(0.82);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes result-pop {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
