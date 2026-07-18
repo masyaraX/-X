@@ -69,27 +69,27 @@ const defaultSave: SaveData = {
 };
 
 const colors = [
-  { name: "RED", value: "#ef4444" },
-  { name: "BLUE", value: "#2563eb" },
-  { name: "GREEN", value: "#16a34a" },
-  { name: "YELLOW", value: "#f59e0b" },
-  { name: "PINK", value: "#ec4899" },
-  { name: "CYAN", value: "#0891b2" },
+  { name: "赤", value: "#ef4444" },
+  { name: "青", value: "#2563eb" },
+  { name: "緑", value: "#16a34a" },
+  { name: "黄", value: "#f59e0b" },
+  { name: "桃", value: "#ec4899" },
+  { name: "水色", value: "#0891b2" },
 ];
 
 const shopItems = [
-  { id: "neon-bg", name: "Neon board", price: 180 },
-  { id: "gold-badge", name: "Gold badge", price: 220 },
-  { id: "fever-pop", name: "Fever pop", price: 260 },
+  { id: "neon-bg", name: "ネオン背景", price: 180 },
+  { id: "gold-badge", name: "金色バッジ", price: 220 },
+  { id: "fever-pop", name: "フィーバー演出", price: 260 },
 ];
 
 const achievements = [
-  { label: "First run", check: (save: SaveData) => save.plays >= 1 },
-  { label: "2,000 pts", check: (save: SaveData) => save.bestScore >= 2000 },
-  { label: "S rank", check: (save: SaveData) => save.sRanks >= 1 },
-  { label: "25 hits", check: (save: SaveData) => save.totalCorrect >= 25 },
+  { label: "初プレイ", check: (save: SaveData) => save.plays >= 1 },
+  { label: "2,000点", check: (save: SaveData) => save.bestScore >= 2000 },
+  { label: "Sランク", check: (save: SaveData) => save.sRanks >= 1 },
+  { label: "25回正解", check: (save: SaveData) => save.totalCorrect >= 25 },
   { label: "Lv 5", check: (save: SaveData) => levelFromXp(save.xp) >= 5 },
-  { label: "Collector", check: (save: SaveData) => save.owned.length >= 3 },
+  { label: "コレクター", check: (save: SaveData) => save.owned.length >= 3 },
 ];
 
 function randomInt(min: number, max: number) {
@@ -129,8 +129,8 @@ function makeGame(id: number, streak: number): MiniGame {
     return {
       id,
       kind,
-      title: "Pop Target",
-      prompt: "Hit the glowing target",
+      title: "ターゲットポップ",
+      prompt: "光っている的を押せ！",
       limit,
       danger,
       payload: {
@@ -149,8 +149,8 @@ function makeGame(id: number, streak: number): MiniGame {
     return {
       id,
       kind,
-      title: "Tap Ladder",
-      prompt: "Tap 1, 2, 3... without a miss",
+      title: "数字ラッシュ",
+      prompt: "1、2、3…の順番でミスなく押せ！",
       limit: limit + 2,
       danger,
       payload: {
@@ -167,8 +167,8 @@ function makeGame(id: number, streak: number): MiniGame {
     return {
       id,
       kind,
-      title: "Color Trap",
-      prompt: danger ? `Tap the COLOR, ignore word: ${label.name}` : `Tap ${answer.name}`,
+      title: "色トラップ",
+      prompt: danger ? `文字は無視！表示色と同じ色を押せ` : `${answer.name}を押せ！`,
       limit,
       danger,
       payload: {
@@ -187,8 +187,8 @@ function makeGame(id: number, streak: number): MiniGame {
     return {
       id,
       kind,
-      title: "Odd One",
-      prompt: "Find the different tile",
+      title: "仲間はずれ探し",
+      prompt: "1つだけ違うタイルを探せ！",
       limit,
       danger,
       payload: {
@@ -206,8 +206,8 @@ function makeGame(id: number, streak: number): MiniGame {
     return {
       id,
       kind,
-      title: "Flash Memory",
-      prompt: "Remember it, then tap it",
+      title: "瞬間記憶",
+      prompt: "一瞬だけ出る言葉を覚えろ！",
       limit: limit + 1,
       danger,
       payload: {
@@ -222,8 +222,8 @@ function makeGame(id: number, streak: number): MiniGame {
     return {
       id,
       kind,
-      title: "Red Light Rush",
-      prompt: "Tap only when it says GO",
+      title: "反射チャレンジ",
+      prompt: "GO が出た瞬間だけ押せ！",
       limit: 5.5,
       danger,
       payload: {
@@ -236,8 +236,8 @@ function makeGame(id: number, streak: number): MiniGame {
   return {
     id,
     kind: "risk",
-    title: "Risk Pick",
-    prompt: "One tile is jackpot. Others are bombs.",
+    title: "一発勝負",
+    prompt: "当たりは1つ。他は全部ハズレ！",
     limit,
     danger,
     payload: {
@@ -291,9 +291,9 @@ export function App() {
   const level = levelFromXp(save.xp);
   const hitRate = results.length ? Math.round((successes / results.length) * 100) : 0;
   const currentMissions = [
-    { label: "Win 5 rounds", done: successes >= 5 },
-    { label: "Reach fever", done: fever >= 100 },
-    { label: "Keep 2 lives", done: lives >= 2 && results.length >= 8 },
+    { label: "5ラウンド成功", done: successes >= 5 },
+    { label: "フィーバー到達", done: fever >= 100 },
+    { label: "ライフ2以上で終盤へ", done: lives >= 2 && results.length >= 8 },
   ];
 
   function beginRun() {
@@ -333,7 +333,7 @@ export function App() {
     setCombo(nextCombo);
     setLives(nextLives);
     setFever(nextFever);
-    setMessage(success ? (nextFever >= 100 ? "FEVER!" : "NICE!") : "MISS!");
+    setMessage(success ? (nextFever >= 100 ? "フィーバー！" : "ナイス！") : "ミス！");
 
     window.setTimeout(() => {
       const nextIndex = currentIndex + 1;
@@ -405,8 +405,8 @@ export function App() {
               <Brain size={27} />
             </div>
             <div>
-              <h1 className="text-2xl font-black tracking-normal sm:text-3xl">Hirameki Rush</h1>
-              <p className="text-sm font-bold text-slate-500">10 quick rounds. 3 lives. Chase fever.</p>
+              <h1 className="text-2xl font-black tracking-normal sm:text-3xl">ひらめきラッシュ</h1>
+              <p className="text-sm font-bold text-slate-500">10連戦。ライフ3つ。フィーバーを狙え。</p>
             </div>
           </div>
           <div className="flex items-center gap-2 rounded-lg bg-white px-3 py-2 shadow-sm">
@@ -447,17 +447,17 @@ export function App() {
           </div>
 
           <aside className="grid content-start gap-4">
-            <InfoCard icon={<Trophy size={19} />} title="Scoreboard">
+            <InfoCard icon={<Trophy size={19} />} title="スコアボード">
               <Ranking best={save.bestScore} current={rawScore} />
             </InfoCard>
-            <InfoCard icon={<CalendarCheck size={19} />} title="Daily Missions">
+            <InfoCard icon={<CalendarCheck size={19} />} title="デイリーミッション">
               <div className="space-y-2">
                 {currentMissions.map((mission) => (
                   <StatusRow key={mission.label} label={mission.label} active={mission.done} />
                 ))}
               </div>
             </InfoCard>
-            <InfoCard icon={<Star size={19} />} title="Achievements">
+            <InfoCard icon={<Star size={19} />} title="実績">
               <div className="grid grid-cols-2 gap-2">
                 {achievements.map((achievement) => (
                   <div
@@ -471,7 +471,7 @@ export function App() {
                 ))}
               </div>
             </InfoCard>
-            <InfoCard icon={<ShoppingBag size={19} />} title="Shop">
+            <InfoCard icon={<ShoppingBag size={19} />} title="ショップ">
               <div className="space-y-2">
                 {shopItems.map((item) => (
                   <button
@@ -481,7 +481,7 @@ export function App() {
                     className="tap-target flex w-full items-center justify-between rounded-md border border-slate-200 px-3 py-2 text-left text-sm font-black transition hover:border-emerald-500 disabled:cursor-not-allowed disabled:opacity-55"
                   >
                     <span>{item.name}</span>
-                    <span>{save.owned.includes(item.id) ? "Owned" : `${item.price} C`}</span>
+                    <span>{save.owned.includes(item.id) ? "所持中" : `${item.price} C`}</span>
                   </button>
                 ))}
               </div>
@@ -503,39 +503,39 @@ function HomePanel({ save, level, onStart }: { save: SaveData; level: number; on
           <div className="relative">
             <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-2 text-sm font-black text-emerald-200">
               <Sparkles size={18} />
-              Login bonus +30 C
+              ログインボーナス +30 C
             </div>
             <h2 className="max-w-xl text-5xl font-black tracking-normal sm:text-6xl">
-              Tiny games, big combo.
+              小さなゲームで、大きなコンボ。
             </h2>
             <p className="mt-4 max-w-xl text-base font-semibold leading-7 text-slate-200">
-              This version is faster, harsher, and more toy-like: ten random challenges, three lives,
-              fever mode, danger rounds, and a score chase that actually bites back.
+              10個のミニゲームをテンポよく連続プレイ。ライフ3つ、フィーバー、危険ラウンドで、
+              ただ押すだけなのに少し悔しくてもう一回遊びたくなる形にしました。
             </p>
             <button
               onClick={onStart}
               className="tap-target mt-7 inline-flex items-center gap-2 rounded-lg bg-emerald-300 px-6 py-3 text-base font-black text-slate-950 shadow-lg transition hover:scale-[1.03] hover:bg-amber-200"
             >
               <Play size={20} fill="currentColor" />
-              Start Rush
+              ラッシュ開始
             </button>
           </div>
         </div>
 
         <div className="grid gap-3">
-          <Stat icon={<Crown size={19} />} label="Best" value={`${save.bestScore.toLocaleString()} pt`} />
-          <Stat icon={<Zap size={19} />} label="Level" value={`Lv ${level}`} />
-          <Stat icon={<Gamepad2 size={19} />} label="Runs" value={`${save.plays}`} />
-          <Stat icon={<BadgeCheck size={19} />} label="Total hits" value={`${save.totalCorrect}`} />
+          <Stat icon={<Crown size={19} />} label="自己ベスト" value={`${save.bestScore.toLocaleString()} pt`} />
+          <Stat icon={<Zap size={19} />} label="レベル" value={`Lv ${level}`} />
+          <Stat icon={<Gamepad2 size={19} />} label="プレイ回数" value={`${save.plays}`} />
+          <Stat icon={<BadgeCheck size={19} />} label="総正解数" value={`${save.totalCorrect}`} />
         </div>
       </div>
 
       <div className="grid gap-3 sm:grid-cols-4">
         {[
-          ["3 lives", Heart],
-          ["Fever", Flame],
-          ["Danger", Target],
-          ["One tap", MousePointerClick],
+          ["ライフ3つ", Heart],
+          ["フィーバー", Flame],
+          ["危険ラウンド", Target],
+          ["タップだけ", MousePointerClick],
         ].map(([label, Icon]) => (
           <div key={String(label)} className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-center font-black">
             <Icon className="mx-auto mb-2 text-emerald-600" size={22} />
@@ -576,9 +576,9 @@ function PlayingPanel({
         <div>
           <div className="flex items-center gap-2">
             <p className="text-sm font-black text-emerald-600">
-              ROUND {index + 1}/{total}
+              ラウンド {index + 1}/{total}
             </p>
-            {game.danger && <span className="rounded-full bg-rose-100 px-2 py-1 text-xs font-black text-rose-700">DANGER</span>}
+            {game.danger && <span className="rounded-full bg-rose-100 px-2 py-1 text-xs font-black text-rose-700">危険</span>}
           </div>
           <h2 className="text-3xl font-black tracking-normal">{game.title}</h2>
           <p className="mt-1 font-semibold text-slate-500">{game.prompt}</p>
@@ -604,7 +604,7 @@ function PlayingPanel({
 
       <div className={`game-stage relative grid min-h-[390px] place-items-center overflow-hidden rounded-lg p-4 ${game.danger ? "danger-stage" : "bg-slate-50"}`}>
         {message && (
-          <div className={`result-pop absolute inset-0 z-20 grid place-items-center text-5xl font-black ${message === "MISS!" ? "text-rose-600" : "text-emerald-500"}`}>
+          <div className={`result-pop absolute inset-0 z-20 grid place-items-center text-5xl font-black ${message === "ミス！" ? "text-rose-600" : "text-emerald-500"}`}>
             <span className="rounded-lg bg-white/85 px-7 py-4 shadow-soft">{message}</span>
           </div>
         )}
@@ -625,14 +625,14 @@ function GameSurface({ game, tick, onAnswer }: { game: MiniGame; tick: number; o
             onClick={() => onAnswer("fake")}
             className="target-fake absolute h-16 w-16 rounded-full bg-slate-300/75"
             style={{ left: `${fake.x}%`, top: `${fake.y}%` }}
-            aria-label="fake target"
+            aria-label="ハズレの的"
           />
         ))}
         <button
           onClick={() => onAnswer(true)}
           className="target-real absolute h-20 w-20 rounded-full bg-emerald-400 text-slate-950 shadow-soft"
           style={{ left: `${game.payload.x}%`, top: `${game.payload.y}%` }}
-          aria-label="target"
+          aria-label="的"
         >
           <Target className="mx-auto" size={34} />
         </button>
@@ -709,7 +709,7 @@ function GameSurface({ game, tick, onAnswer }: { game: MiniGame; tick: number; o
     return revealed ? (
       <div className="memory-flash text-center">
         <div className="text-6xl font-black text-emerald-500">{game.payload.answer as string}</div>
-        <p className="mt-3 font-black text-slate-500">Remember this</p>
+        <p className="mt-3 font-black text-slate-500">これを覚えて！</p>
       </div>
     ) : (
       <div className={`grid w-full max-w-lg gap-3 ${options.length > 4 ? "grid-cols-3" : "grid-cols-2"}`}>
@@ -735,7 +735,7 @@ function GameSurface({ game, tick, onAnswer }: { game: MiniGame; tick: number; o
           ready ? "bg-emerald-500 hover:scale-[1.04]" : "bg-rose-500"
         }`}
       >
-        {ready || tick < 0 ? "GO" : "WAIT"}
+        {ready || tick < 0 ? "GO" : "まて"}
       </button>
     );
   }
@@ -780,18 +780,18 @@ function ResultPanel({
       <div className="rounded-lg bg-slate-950 p-6 text-white">
         <div className="flex items-center gap-2 text-emerald-200">
           <Medal size={22} />
-          <span className="font-black">Run Complete</span>
+          <span className="font-black">結果発表</span>
         </div>
         <div className="mt-4 grid gap-4 sm:grid-cols-4">
-          <ResultStat label="Score" value={score.toLocaleString()} />
-          <ResultStat label="Rank" value={rank} />
-          <ResultStat label="Hit rate" value={`${hitRate}%`} />
-          <ResultStat label="Lives" value={`${Math.max(0, lives)}`} />
+          <ResultStat label="スコア" value={score.toLocaleString()} />
+          <ResultStat label="ランク" value={rank} />
+          <ResultStat label="成功率" value={`${hitRate}%`} />
+          <ResultStat label="残りライフ" value={`${Math.max(0, lives)}`} />
         </div>
         <div className="mt-4 flex flex-wrap gap-2 text-sm font-black">
-          {noMiss && <span className="rounded-full bg-amber-300 px-3 py-1 text-slate-950">Clean +1000</span>}
+          {noMiss && <span className="rounded-full bg-amber-300 px-3 py-1 text-slate-950">ノーミス +1000</span>}
           <span className="rounded-full bg-white/10 px-3 py-1 text-emerald-100">
-            Best {Math.max(best, score).toLocaleString()}
+            自己ベスト {Math.max(best, score).toLocaleString()}
           </span>
         </div>
         <button
@@ -799,7 +799,7 @@ function ResultPanel({
           className="tap-target mt-6 inline-flex items-center gap-2 rounded-lg bg-emerald-300 px-5 py-3 font-black text-slate-950 transition hover:scale-[1.03] hover:bg-amber-200"
         >
           <RotateCcw size={19} />
-          Retry
+          もう一回
         </button>
       </div>
 
@@ -845,10 +845,10 @@ function InfoCard({ icon, title, children }: { icon: React.ReactNode; title: str
 
 function Ranking({ best, current }: { best: number; current: number }) {
   const rows = [
-    ["World", 12680],
-    ["Weekly", 9340],
-    ["Today", 7180],
-    ["You", Math.max(best, current)],
+    ["世界", 12680],
+    ["週間", 9340],
+    ["今日", 7180],
+    ["あなた", Math.max(best, current)],
   ];
   return (
     <div className="space-y-2">
